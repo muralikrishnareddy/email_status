@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="view_message_tree_inh" model="ir.ui.view">
+            <field name="name">mail.message.tree.inh</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="mail.view_message_tree"/>
+            <field name="arch" type="xml">
+                    <field name="res_id" position="after">
+                        <field name="state"/>
+                    </field>
+            </field>
+        </record>
+
+        <record id="view_message_form_inh" model="ir.ui.view">
+            <field name="name">view.message.form.inh</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="mail.view_message_form"/>
+            <field name="arch" type="xml">
+                    <field name="type" position="after">
+                        <field name="state"/>
+                    </field>
+            </field>
+        </record>
+            
+    </data>
+</openerp>
