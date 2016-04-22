@@ -1,0 +1,109 @@
+openerp.pos_logo = function(instance){
+     var module = instance.point_of_sale;
+     var Qweb = instance.web.qweb;
+     var _t =    instance.web._t;
+    
+    module.ImageWidget = module.PosWidget.include({
+       start: function() {
+            var self = this;
+            return self.pos.ready.done(function() {
+                // remove default webclient handlers that induce click delay
+                $(document).off();
+                $(window).off();
+                $('html').off();
+                $('body').off();
+                $(self.$el).parent().off();
+                $('document').off();
+                $('.oe_web_client').off();
+                $('.openerp_webclient_container').off();
+
+                self.build_currency_template();
+                self.renderElement();
+                
+                self.$('.neworder-button').click(function(){
+                    self.pos.add_new_order();
+                });
+
+                self.$('.deleteorder-button').click(function(){
+                    if( !self.pos.get('selectedOrder').is_empty() ){
+                        self.screen_selector.show_popup('confirm',{
+                            message: _t('Destroy Current Order ?'),
+                            comment: _t('You will lose any data associated with the current order'),
+                            confirm: function(){
+                                self.pos.delete_current_order();
+                            },
+                        });
+                    }else{
+                        self.pos.delete_current_order();
+                    }
+                });
+                
+                //when a new order is created, add an order button widget
+                self.pos.get('orders').bind('add', function(new_order){
+                    var new_order_button = new module.OrderButtonWidget(null, {
+                        order: new_order,
+                        pos: self.pos
+                    });
+                    new_order_button.appendTo(this.$('.orders'));
+                    new_order_button.selectOrder();
+                }, self);
+
+                self.pos.add_new_order();
+
+                self.build_widgets();
+
+                if(self.pos.config.iface_big_scrollbars){
+                    self.$el.addClass('big-scrollbars');
+                }
+
+                self.screen_selector.set_default_screen();
+
+                self.pos.barcode_reader.connect();
+
+                instance.webclient.set_content_full_screen(true);
+
+                self.$('.loader').animate({opacity:0},1500,'swing',function(){self.$('.loader').addClass('oe_hidden');});
+
+                self.pos.push_order();
+                var $image = self.$('#image');
+                $image.attr("src",'/web/binary/image?model=pos.config&field=image&id='+self.pos.config.id);
+                $image.css( { marginLeft : "5px", marginTop : "3px", width:'60px', 'border-radius':'3px' } );
+                
+                var $time = self.$('#timeSpan');
+                $time.text("testing");
+                $time.css( { color : "#DDD", fontSize:'20px', marginLeft:'15px', fontStyle:'italic', verticalAlign:'100%' } );
+                
+                self.loaded();
+            }).fail(function(err){   // error when loading models data from the backend
+                self.loading_error(err);
+            });
+        },
+        loaded:function(){
+        var self = this; 
+        time_format = self.pos.config.time_format;
+        startTime(time_format);
+        
+        },
+        
+    });
+    function startTime(time_format) {
+                time_format = time_format;
+                var self = this; 
+    		var today = new Date();
+		var h = today.getHours();
+    		var m = today.getMinutes();
+    		var s = today.getSeconds();
+    		var ampm = '';
+    		if(time_format=='12'){
+    		h = h % 12;
+  		h = h ? h : 12;
+    		ampm = h >= 12 ? 'PM' : 'AM';
+    		}
+    		h = h<10? "0"+h :h;
+    		m = m<10? "0"+m :m;
+    		s = s<10? "0"+s :s;
+    		var $time = self.$('#timeSpan');
+                $time.text(h + ":" + m + ":" + s + " " + ampm);
+                var t=setTimeout(startTime,500,time_format);
+	}
+};
