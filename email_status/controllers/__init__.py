@@ -1,3 +1,6 @@
-import main
+# -*- coding: utf-8 -*-
+# Copyright 2017, credativ Ltd
+#                 Kinner Vachhani <kin.vachhani.gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
-# vim:expandtab:tabstop=4:softtabstop=4:shiftwidth=4:
+from . import main
