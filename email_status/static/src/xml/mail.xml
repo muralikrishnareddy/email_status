@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <template>
     <t t-extend="mail.thread.message">
-  		<t t-jquery=".oe_msg_icons .oe_read" t-operation="before">
-  		    <span t-if="widget.state and widget.state=='sent'"><a title="Email Delivered" class="oe_e">8</a></span>
-                    <span t-if="widget.state and widget.state=='exception'"><a title="Email Delivery Failed" class="oe_e">[</a></span>
-                    <span t-if="widget.state and widget.state=='outgoing'"><a title="Email Inprogress" class="oe_e">6</a></span>  
-                    <span t-if="widget.state and widget.state=='cancel'"><a title="Email Cancelled" class="oe_e">^</a></span>  
-                    <span t-if="widget.state and widget.state=='received'"><a title="Email Received" class="oe_e">x</a></span> 
-  		</t>
+        <t t-jquery=".oe_msg_icons .oe_read" t-operation="before">
+            <span t-if="widget.state and widget.state=='sent'"><a title="Email Delivered" class="oe_e">8</a></span>
+                    <span t-if="widget.state and widget.state=='exception'">
+                      <a title="Email Delivery Failed" class="oe_e">[</a>
+                    </span>
+                    <span t-if="widget.state and widget.state=='outgoing'">
+                      <a title="Email Inprogress" class="oe_e">d</a>
+                    </span>
+                    <span t-if="widget.state and widget.state=='cancel'">
+                      <a title="Email Cancelled" class="oe_e">^</a>
+                    </span>
+                    <span t-if="widget.state and widget.state=='received'">
+                      <a title="Email Received" class="oe_e">x</a>
+                    </span>
+        </t>
     </t>
 </template>
-

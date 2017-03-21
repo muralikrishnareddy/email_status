@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-    	<template id="assets_backend" name="web_tests assets" inherit_id="web.assets_backend">
+    <data>
+        <template id="assets_backend" name="web_tests assets"
+                  inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-			    <script type="text/javascript" src="/email_status/static/src/js/email_status.js"></script>
-			    <link rel="stylesheet" href="/email_status/static/src/css/email_status.css"/>
-			</xpath>
-		</template>
+                <script type="text/javascript"
+                        src="/email_status/static/src/js/email_status.js"></script>
+                <link rel="stylesheet"
+                      href="/email_status/static/src/css/email_status.css"/>
+            </xpath>
+        </template>
     </data>
 </openerp>
