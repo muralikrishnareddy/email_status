@@ -16,6 +16,9 @@
                     <span t-if="widget.state and widget.state=='received'">
                       <a title="Email Received" class="oe_e">x</a>
                     </span>
+                    <span t-if="widget.type=='email' and widget.state==false">
+                      <a title="Email Deleted" class="oe_e">u</a>
+                    </span>
         </t>
     </t>
 </template>

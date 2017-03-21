@@ -14,16 +14,20 @@ _logger = logging.getLogger(__name__)
 class mail_message(models.Model):
     _inherit = 'mail.message'
 
-    @api.one
     @api.depends('mail_ids.state')
-    def _compute_state(self):
+    def _set_state(self):
         """
             update message state when mail state gets updated
         """
 
+        # TODO self.state is always false -- Investigate
         mail = self.mail_ids and self.mail_ids[0] or False
         if mail:
             self.state = mail.state
+        else:
+            # Following statement return state
+            # to database else sends false value
+            return self.read(['state'])[0].get('state')
 
     def _get_state(self):
         ''' Return the mail.mail selection state '''
@@ -31,7 +35,9 @@ class mail_message(models.Model):
 
     state = fields.Selection(selection='_get_state',
                              string='Status',
-                             compute='_compute_state')
+                             compute='_set_state',
+                             store=True,
+                             )
     mail_ids = fields.One2many('mail.mail',
                                'mail_message_id',
                                auto_join=True,
