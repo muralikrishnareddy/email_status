@@ -13,9 +13,6 @@
                 'web',
                 'mail',
                 ],
-    'images': ['images/main_screenshot.png',
-               'images/email_status1.png',
-               ],
     'data': [
         'views/email_status.xml',
         'views/mail_message_view.xml',
