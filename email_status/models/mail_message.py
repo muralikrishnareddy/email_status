@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 class mail_message(models.Model):
     _inherit = 'mail.message'
 
+    @api.one
     @api.depends('mail_ids.state')
     def _set_state(self):
         """
