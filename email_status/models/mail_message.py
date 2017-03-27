@@ -14,7 +14,6 @@ _logger = logging.getLogger(__name__)
 class mail_message(models.Model):
     _inherit = 'mail.message'
 
-    @api.one
     @api.depends('mail_ids.state')
     def _set_state(self):
         """
@@ -22,13 +21,15 @@ class mail_message(models.Model):
         """
 
         # TODO self.state is always false -- Investigate
-        mail = self.mail_ids and self.mail_ids[0] or False
-        if mail:
-            self.state = mail.state
-        else:
-            # Following statement return state
-            # to database else sends false value
-            return self.read(['state'])[0].get('state')
+        for msg in self.filtered(lambda r: r.exists() and
+            r.type == 'email'):
+            mail = msg.mail_ids and msg.mail_ids[0] or False
+            if mail:
+                self.state = mail.state
+#           else:
+#               # Following statement return state
+#               # to database else sends false value
+#               return self.read(['state'])[0].get('state')
 
     def _get_state(self):
         ''' Return the mail.mail selection state '''
