@@ -22,7 +22,7 @@ class mail_message(models.Model):
 
         # TODO self.state is always false -- Investigate
         for msg in self.filtered(lambda r: r.exists() and
-            r.type == 'email'):
+                                 r.type == 'email'):
             mail = msg.mail_ids and msg.mail_ids[0] or False
             if mail:
                 self.state = mail.state
@@ -47,8 +47,7 @@ class mail_message(models.Model):
 
     @api.model
     def _message_read_dict(self, message, parent_id=False):
-        ret = super(mail_message, self)._message_read_dict(
-                                                           message,
+        ret = super(mail_message, self)._message_read_dict(message,
                                                            parent_id=parent_id,
                                                            )
         # Super method do not return State field by default

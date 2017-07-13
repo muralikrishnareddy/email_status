@@ -64,7 +64,7 @@ class LockoutSign(openerp.addons.web.controllers.main.Home):
                                         Please try after ' + unlock_after_name
                             else:
                                 wronglogin_cnt = lid.wronglogin_cnt \
-                                            and lid.wronglogin_cnt+1 or 1
+                                    and lid.wronglogin_cnt+1 or 1
                                 pooler.get_pool(request.session.db).\
                                     get('res.users').write(cr,
                                                            SUPERUSER_ID,
