@@ -11,5 +11,5 @@ openerp.email_status = function (session) {
 
             this.state = datasets.state || false;
         },
-	});
+});
 };
